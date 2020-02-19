@@ -16,11 +16,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'checkstyle'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
+        versionName "1.0.1-beta5"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
 
@@ -44,9 +46,22 @@ dependencies {
 
     implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
 
-    compileOnly 'com.github.bumptech.glide:glide:3.7.0'
+    compileOnly 'com.github.bumptech.glide:glide:4.9.0'
     compileOnly 'com.squareup.picasso:picasso:2.5.2'
 }
+
+//本地
+group = 'com.echatsoft.echatsdk'
+version = android.defaultConfig.versionName
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('file:///Users/xuhaoyang/echat/repo/sdk/')) //定义本地maven仓库的地址
+            pom.artifactId = "imagepickerx"
+        }
+    }
+}
+
 
 // jcenter configuration for novoda's bintray-release
 // $ ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
@@ -54,7 +69,7 @@ publish {
     userOrg = 'echat' // 改成你在 bintray 上注册的用户名
     groupId = 'com.echatsoft.echatsdk' // 改成你的包名（影响别人引用的第一段）
     artifactId = 'imagepickerx'
-    publishVersion = '1.0.1-beta5'
+    publishVersion = android.defaultConfig.versionName
     desc = 'A well-designed local image selector for Android'
     website = 'https://www.zhihu.com/'
 }
