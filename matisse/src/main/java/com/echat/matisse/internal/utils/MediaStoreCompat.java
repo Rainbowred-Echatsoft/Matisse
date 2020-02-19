@@ -27,11 +27,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.support.v4.os.EnvironmentCompat;
 import android.text.TextUtils;
-
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
+import androidx.core.os.EnvironmentCompat;
 import com.echat.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;

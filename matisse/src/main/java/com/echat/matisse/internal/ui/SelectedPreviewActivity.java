@@ -16,7 +16,7 @@
 package com.echat.matisse.internal.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.echat.matisse.internal.entity.SelectionSpec;
 import com.echat.matisse.internal.model.SelectedItemCollection;

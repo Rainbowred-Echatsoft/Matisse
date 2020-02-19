@@ -17,7 +17,7 @@
 package com.echat.matisse.listener;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

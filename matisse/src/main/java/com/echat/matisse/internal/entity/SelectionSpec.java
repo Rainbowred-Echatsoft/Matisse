@@ -17,7 +17,7 @@
 package com.echat.matisse.internal.entity;
 
 import android.content.pm.ActivityInfo;
-import android.support.annotation.StyleRes;
+import androidx.annotation.StyleRes;
 
 import com.echat.matisse.MimeType;
 import com.echat.matisse.R;

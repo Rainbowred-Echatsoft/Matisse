@@ -24,13 +24,12 @@ import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.content.CursorLoader;
-import android.util.SparseArray;
+import androidx.loader.content.CursorLoader;
+
 
 import com.echat.matisse.MimeType;
 import com.echat.matisse.internal.entity.Album;
 import com.echat.matisse.internal.entity.SelectionSpec;
-
 
 import java.util.HashMap;
 import java.util.HashSet;
