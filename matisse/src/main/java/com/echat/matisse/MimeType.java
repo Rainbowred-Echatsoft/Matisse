@@ -18,8 +18,8 @@ package com.echat.matisse;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.support.v4.util.ArraySet;
+import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import com.echat.matisse.internal.utils.PhotoMetadataUtils;
@@ -56,6 +56,13 @@ public enum MimeType {
     WEBP("image/webp", arraySetOf(
             "webp"
     )),
+    HEIC("image/heic", arraySetOf(
+            "heic"
+    )),
+    HEIF("image/heif", arraySetOf(
+            "heif"
+    )),
+
 
     // ============== videos ==============
     MPEG("video/mpeg", arraySetOf(
@@ -107,7 +114,7 @@ public enum MimeType {
     }
 
     public static Set<MimeType> ofImage() {
-        return EnumSet.of(JPEG, PNG, GIF, BMP, WEBP);
+        return EnumSet.of(JPEG, PNG, GIF, BMP, WEBP, HEIC, HEIF);
     }
 
     public static Set<MimeType> ofVideo() {
