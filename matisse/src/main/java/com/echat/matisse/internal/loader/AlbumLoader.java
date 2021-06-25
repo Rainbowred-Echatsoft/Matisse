@@ -99,7 +99,7 @@ public class AlbumLoader extends CursorLoader {
     // =============================================
 
     // === params for showSingleMediaType: true ===
-    private static final String SELECTION_FOR_SINGLE_MEDIA_GIF_TYPE =
+    private static final String SELECTION_FOR_SINGLE_MEDIA_GIF_TYPE    =
             MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
                     + " AND " + MediaStore.MediaColumns.SIZE + ">0"
                     + " AND " + MediaStore.MediaColumns.MIME_TYPE + "=?"
@@ -114,7 +114,9 @@ public class AlbumLoader extends CursorLoader {
     }
     // =============================================
 
-    private static final String BUCKET_ORDER_BY = "datetaken DESC";
+    //fix 小米10 排序乱序
+    //private static final String BUCKET_ORDER_BY = "datetaken DESC";
+    private static final String BUCKET_ORDER_BY = MediaStore.Images.Media.DATE_ADDED + " DESC";
 
     private AlbumLoader(Context context, String selection, String[] selectionArgs) {
         super(
