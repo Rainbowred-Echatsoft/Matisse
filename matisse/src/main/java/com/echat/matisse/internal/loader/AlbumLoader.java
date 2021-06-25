@@ -25,12 +25,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
-import android.util.SparseArray;
 
 import com.echat.matisse.MimeType;
 import com.echat.matisse.internal.entity.Album;
 import com.echat.matisse.internal.entity.SelectionSpec;
-
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -100,7 +98,7 @@ public class AlbumLoader extends CursorLoader {
     // =============================================
 
     // === params for showSingleMediaType: true ===
-    private static final String SELECTION_FOR_SINGLE_MEDIA_GIF_TYPE =
+    private static final String SELECTION_FOR_SINGLE_MEDIA_GIF_TYPE    =
             MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
                     + " AND " + MediaStore.MediaColumns.SIZE + ">0"
                     + " AND " + MediaStore.MediaColumns.MIME_TYPE + "=?"
@@ -115,7 +113,9 @@ public class AlbumLoader extends CursorLoader {
     }
     // =============================================
 
-    private static final String BUCKET_ORDER_BY = "datetaken DESC";
+    //fix 小米10 排序乱序
+    //private static final String BUCKET_ORDER_BY = "datetaken DESC";
+    private static final String BUCKET_ORDER_BY = MediaStore.Images.Media.DATE_ADDED + " DESC";
 
     private AlbumLoader(Context context, String selection, String[] selectionArgs) {
         super(
