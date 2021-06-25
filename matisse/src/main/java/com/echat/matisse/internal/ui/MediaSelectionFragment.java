@@ -18,22 +18,23 @@ package com.echat.matisse.internal.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.echat.matisse.R;
-import com.echat.matisse.internal.model.SelectedItemCollection;
-import com.echat.matisse.internal.ui.widget.MediaGridInset;
 import com.echat.matisse.internal.entity.Album;
 import com.echat.matisse.internal.entity.Item;
 import com.echat.matisse.internal.entity.SelectionSpec;
 import com.echat.matisse.internal.model.AlbumMediaCollection;
+import com.echat.matisse.internal.model.SelectedItemCollection;
 import com.echat.matisse.internal.ui.adapter.AlbumMediaAdapter;
+import com.echat.matisse.internal.ui.widget.MediaGridInset;
 import com.echat.matisse.internal.utils.UIUtils;
 
 public class MediaSelectionFragment extends Fragment implements
@@ -109,7 +110,7 @@ public class MediaSelectionFragment extends Fragment implements
         int spacing = getResources().getDimensionPixelSize(R.dimen.echat_media_grid_spacing);
         mRecyclerView.addItemDecoration(new MediaGridInset(spanCount, spacing, false));
         mRecyclerView.setAdapter(mAdapter);
-        mAlbumMediaCollection.onCreate(getActivity(), this);
+        mAlbumMediaCollection.onCreate(this, this);
         mAlbumMediaCollection.load(album, selectionSpec.capture);
     }
 

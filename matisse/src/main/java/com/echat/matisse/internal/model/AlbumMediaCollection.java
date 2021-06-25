@@ -19,8 +19,10 @@ package com.echat.matisse.internal.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
@@ -61,7 +63,9 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
             return;
         }
 
-        mCallbacks.onAlbumMediaLoad(data);
+        if (mCallbacks != null) {
+            mCallbacks.onAlbumMediaLoad(data);
+        }
     }
 
     @Override
@@ -71,13 +75,21 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
             return;
         }
 
-        mCallbacks.onAlbumMediaReset();
+        if (mCallbacks != null) {
+            mCallbacks.onAlbumMediaReset();
+        }
     }
 
-    public void onCreate(@NonNull FragmentActivity context, @NonNull AlbumMediaCallbacks callbacks) {
-        mContext = new WeakReference<Context>(context);
-        mLoaderManager = context.getSupportLoaderManager();
-        mCallbacks = callbacks;
+    public void onCreate(@NonNull FragmentActivity activity, @NonNull AlbumMediaCallbacks callbacks) {
+        mContext       = new WeakReference<Context>(activity);
+        mLoaderManager = LoaderManager.getInstance(activity);
+        mCallbacks     = callbacks;
+    }
+
+    public void onCreate(@NonNull Fragment fragment, @NonNull AlbumMediaCallbacks callbacks) {
+        mContext       = new WeakReference<Context>(fragment.getContext());
+        mLoaderManager = LoaderManager.getInstance(fragment);
+        mCallbacks     = callbacks;
     }
 
     public void onDestroy() {
