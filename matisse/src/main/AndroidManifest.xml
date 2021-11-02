@@ -22,12 +22,15 @@
     <application>
         <activity
             android:name="com.echat.matisse.ui.MatisseActivity"
+            android:exported="false"
             android:multiprocess="true" />
         <activity
             android:name="com.echat.matisse.internal.ui.AlbumPreviewActivity"
+            android:exported="false"
             android:multiprocess="true" />
         <activity
             android:name="com.echat.matisse.internal.ui.SelectedPreviewActivity"
+            android:exported="false"
             android:multiprocess="true" />
     </application>
 </manifest>
