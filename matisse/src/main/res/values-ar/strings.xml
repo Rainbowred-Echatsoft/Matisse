@@ -24,4 +24,9 @@
     <string name="echat_error_file_type">نوع ملف غير مدعوم</string>
     <string name="echat_error_type_conflict">لا يمكن تحديد الصور ومقاطع الفيديو في نفس الوقت</string>
     <string name="echat_error_no_video_activity">لم يتم العثور على التطبيق دعم معاينة الفيديو</string>
+    <string name="echat_button_sure">واثِق (%1$d)</string>
+    <string name="echat_button_sure_default">واثِق</string>
+    <string name="echat_button_original">الصورة الأصلية</string>
+    <string name="echat_error_over_original_count">" صور يزيد حجمها عن %2$d ميغا بايت. الأصل لن يتم التحقق منه"</string>
+    <string name="echat_error_over_original_size">لا يمكن تحديد الصور الأكبر من %1$d ميغا بايت</string>
 </resources>
