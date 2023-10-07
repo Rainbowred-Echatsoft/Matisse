@@ -15,7 +15,6 @@
  */
 package com.zhihu.matisse2.sample;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -43,14 +42,11 @@ import com.echat.matisse.internal.entity.CaptureStrategy;
 import com.echat.matisse.listener.OnCheckedListener;
 import com.echat.matisse.listener.OnMaxFileSizeListener;
 import com.echat.matisse.listener.OnSelectedListener;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-
-import static android.database.Cursor.FIELD_TYPE_STRING;
 
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -130,54 +126,71 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    @Override
-    public void onClick(final View v) {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Observer<Boolean>() {
+    private void openAlbum(View v) {
+        XXPermissions.with(this)
+                .permission(Permission.READ_MEDIA_IMAGES, Permission.READ_MEDIA_VIDEO)
+                //.interceptor()
+                .request(new OnPermissionCallback() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
+                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                        if (allGranted) {
+                            openMatisse(v);
+                        } else {
+                            Toast.makeText(SampleActivity.this, "获取部分权限成功，但部分权限未正常授予", Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
 
                     @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean) {
-                            switch (v.getId()) {
-                                case R.id.zhihu:
-                                    Matisse.from(SampleActivity.this)
-                                            .choose(MimeType.ofAll(), false)
-                                            .countable(true)
-                                            .capture(true)
-                                            .captureStrategy(
-                                                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
-                                            .maxSelectable(9)
-                                            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                                            .gridExpectedSize(
-                                                    getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                                            .thumbnailScale(0.85f)
-//                                            .imageEngine(new GlideEngine())  // for glide-V3
-                                            .imageEngine(new Glide4Engine())    // for glide-V4
-                                            .setOnSelectedListener(new OnSelectedListener() {
-                                                @Override
-                                                public void onSelected(
-                                                        @NonNull List<Uri> uriList, @NonNull List<String> pathList) {
-                                                    // DO SOMETHING IMMEDIATELY HERE
-                                                    Log.e("onSelected", "onSelected: pathList=" + pathList);
+                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                        if (doNotAskAgain) {
+                            Toast.makeText(SampleActivity.this, "被永久拒绝授权", Toast.LENGTH_LONG)
+                                    .show();
+                            XXPermissions.startPermissionActivity(SampleActivity.this, permissions);
+                        } else {
+                            Toast.makeText(SampleActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                });
+    }
 
-                                                }
-                                            })
-                                            .originalEnable(true)
-                                            .maxOriginalSize(8)
-                                            .autoHideToolbarOnSingleTap(true)
-                                            .setOnCheckedListener(new OnCheckedListener() {
-                                                @Override
-                                                public void onCheck(boolean isChecked) {
-                                                    // DO SOMETHING IMMEDIATELY HERE
-                                                    Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                                                }
-                                            })
+    private void openMatisse(View v) {
+        switch (v.getId()) {
+            case R.id.zhihu:
+                Matisse.from(SampleActivity.this)
+                        .choose(MimeType.ofAll(), false)
+                        .countable(true)
+                        .capture(true)
+                        .captureStrategy(
+                                new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                        .maxSelectable(9)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+//                                            .imageEngine(new GlideEngine())  // for glide-V3
+                        .imageEngine(new Glide4Engine())    // for glide-V4
+                        .setOnSelectedListener(new OnSelectedListener() {
+                            @Override
+                            public void onSelected(
+                                    @NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("onSelected", "onSelected: pathList=" + pathList);
+
+                            }
+                        })
+                        .originalEnable(true)
+                        .maxOriginalSize(8)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(new OnCheckedListener() {
+                            @Override
+                            public void onCheck(boolean isChecked) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                            }
+                        })
 //                                            .maxFileSize(10 * 1024 * 1024)
 //                                            .setOnMaxFileSizeListener(new OnMaxFileSizeListener() {
 //                                                @Override
@@ -185,46 +198,40 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 //                                                    showToast("超出10M大小，无法上传", Toast.LENGTH_SHORT);
 //                                                }
 //                                            })
-                                            .forResult(REQUEST_CODE_CHOOSE);
-                                    break;
-                                case R.id.dracula:
-                                    Matisse.from(SampleActivity.this)
-                                            .choose(MimeType.ofAll())
-                                            .theme(R.style.Matisse_Dracula)
-                                            .countable(false)
-                                            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                                            .maxSelectablePerMediaType(9, 1)
-                                            .originalEnable(false)
-                                            .imageEngine(new PicassoEngine())
-                                            .maxFileSize(20 * 1024 * 1024)
-                                            .setOnMaxFileSizeListener(new OnMaxFileSizeListener() {
-                                                @Override
-                                                public void triggerLimit() {
-                                                    showToast("超出20M大小，无法上传", Toast.LENGTH_SHORT);
-                                                }
-                                            })
-                                            .forResult(REQUEST_CODE_CHOOSE);
-                                    break;
-                                default:
-                                    break;
+                        .forResult(REQUEST_CODE_CHOOSE);
+                break;
+            case R.id.dracula:
+                Matisse.from(SampleActivity.this)
+                        .choose(MimeType.ofAll())
+                        .theme(R.style.Matisse_Dracula)
+                        .countable(false)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .maxSelectablePerMediaType(9, 1)
+                        .originalEnable(false)
+                        .imageEngine(new PicassoEngine())
+                        .maxFileSize(20 * 1024 * 1024)
+                        .setOnMaxFileSizeListener(new OnMaxFileSizeListener() {
+                            @Override
+                            public void triggerLimit() {
+                                showToast("超出20M大小，无法上传", Toast.LENGTH_SHORT);
                             }
-                            mAdapter.setData(null, null);
-                        } else {
-                            Toast.makeText(SampleActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    }
+                        })
+                        .forResult(REQUEST_CODE_CHOOSE);
+                break;
+            default:
+                break;
+        }
+        mAdapter.setData(null, null);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    @Override
+    public void onClick(final View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.zhihu:
+            case R.id.dracula:
+                openAlbum(v);
+        }
     }
 
     /**

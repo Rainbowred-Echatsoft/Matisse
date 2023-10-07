@@ -27,8 +27,8 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     lintOptions {
         abortOnError false
@@ -52,14 +52,14 @@ dependencies {
 //本地
 group = 'com.echatsoft.echatsdk'
 version = android.defaultConfig.versionName
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('file:///Users/xuhaoyang/echat/repo/sdk/')) //定义本地maven仓库的地址
-            pom.artifactId = "imagepickerx"
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: uri('file:///Users/xuhaoyang/echat/repo/sdk/')) //定义本地maven仓库的地址
+//            pom.artifactId = "imagepickerx"
+//        }
+//    }
+//}
 
 
 // jcenter configuration for novoda's bintray-release
