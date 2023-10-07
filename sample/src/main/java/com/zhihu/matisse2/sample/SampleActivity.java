@@ -24,17 +24,22 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.LanguageUtils;
 import com.echat.matisse.Matisse;
 import com.echat.matisse.MimeType;
 import com.echat.matisse.engine.impl.PicassoEngine;
@@ -46,6 +51,7 @@ import com.echat.matisse.listener.OnSelectedListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -66,28 +72,17 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.zhihu).setOnClickListener(this);
         findViewById(R.id.dracula).setOnClickListener(this);
 
-        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+        Button testBtn = findViewById(R.id.btn_test);
+        testBtn.setText(LanguageUtils.getAppContextLanguage().toString());
+        testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //content://media/external/video/media/1417095
-                //content://media/external/video/media/1417110
-                //content://media/external/video/media/1417094
-                //ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417094)
-                //Uri.parse("content://media/external/video/media/1417110")
-
-//Uri.parse("content://media/external/images/media/1417113")
-
-//                String s = "content://media/external/images/media/1417113";
-//                int beginIndex = s.lastIndexOf("/");
-//                Log.e("TEST", "onClick: " + beginIndex);
-//                Log.e("TEST", "onClick: " + s.substring(beginIndex + 1));
-//                query(Uri.parse("content://media/external/images/media/1417113"));
-//                query(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417113));
-//                Uri external = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417094);
-//                Log.e("TEST", "onClick: " + external.toString());
-//                query(external);
-//                delete();
-//                queryDelete();
+                if (LanguageUtils.isAppliedLanguage()) {
+                    LanguageUtils.applySystemLanguage();
+                } else {
+                    LanguageUtils.applyLanguage(new Locale("ar"));
+                }
+                AppUtils.relaunchApp(true);
             }
         });
 
