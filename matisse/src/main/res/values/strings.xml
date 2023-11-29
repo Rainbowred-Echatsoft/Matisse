@@ -26,6 +26,8 @@
     <string name="echat_photo_grid_capture">Camera</string>
     <string name="echat_empty_text">No media yet</string>
     <string name="echat_button_ok">OK</string>
+    <string name="echat_button_manager">Manager</string>
+    <string name="echat_partial_media_tips">You have limited from accessing your photos</string>
 
     <string name="echat_error_over_count_default">You have reached max selectable</string>
     <plurals name="echat_error_over_count">

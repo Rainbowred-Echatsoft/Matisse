@@ -25,6 +25,8 @@
     <string name="echat_photo_grid_capture">拍一張</string>
     <string name="echat_empty_text">還沒有圖片或影片</string>
     <string name="echat_button_ok">我知道了</string>
+    <string name="echat_button_manager">管理</string>
+    <string name="echat_partial_media_tips">你已限製訪問您相冊的所有媒體</string>
 
     <string name="echat_error_over_count_default">您已經達到最大選擇數量</string>
     <plurals name="echat_error_over_count">

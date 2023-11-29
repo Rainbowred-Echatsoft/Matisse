@@ -15,6 +15,7 @@
  */
 package com.echat.matisse.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -26,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -34,7 +36,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.echat.matisse.R;
@@ -55,6 +59,7 @@ import com.echat.matisse.internal.ui.widget.IncapableDialog;
 import com.echat.matisse.internal.utils.MediaStoreCompat;
 import com.echat.matisse.internal.utils.PathUtils;
 import com.echat.matisse.internal.utils.PhotoMetadataUtils;
+import com.echat.matisse.internal.utils.Platform;
 
 import java.util.ArrayList;
 
@@ -73,6 +78,7 @@ public class MatisseActivity extends AppCompatActivity implements
     public static final String EXTRA_RESULT_ORIGINAL_ENABLE = "extra_result_original_enable";
     private static final int REQUEST_CODE_PREVIEW = 23;
     private static final int REQUEST_CODE_CAPTURE = 24;
+    private static final int REQUEST_CODE_USER_SELECTED   = 25;
     public static final String CHECK_STATE = "checkState";
     private final AlbumCollection mAlbumCollection = new AlbumCollection();
     private MediaStoreCompat mMediaStoreCompat;
@@ -89,6 +95,9 @@ public class MatisseActivity extends AppCompatActivity implements
     private LinearLayout mOriginalLayout;
     private CheckRadioView mOriginal;
     private boolean mOriginalEnable;
+
+    private RelativeLayout mPartialMediaLayout;
+    private Button         mButtonManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,7 +141,15 @@ public class MatisseActivity extends AppCompatActivity implements
             navigationIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
         }
 
+        mPartialMediaLayout = (RelativeLayout) findViewById(R.id.partial_media_layout);
+        mButtonManager      = (Button) findViewById(R.id.button_manager);
+        mButtonManager.setOnClickListener(this);
+        if (Platform.isPartialMediaAccess(this)) {
+            mPartialMediaLayout.setVisibility(View.VISIBLE);
+        }
+
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
+        mButtonPreview.setOnClickListener(this);
         mButtonApply = (TextView) findViewById(R.id.button_apply);
         mButtonPreview.setOnClickListener(this);
         mButtonApply.setOnClickListener(this);
@@ -248,6 +265,27 @@ public class MatisseActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_USER_SELECTED) {
+            if (mPartialMediaLayout != null && !Platform.isPartialMediaAccess(this)) {
+                mPartialMediaLayout.setVisibility(View.GONE);
+            }
+            Album album = Album.valueOf(mAlbumsAdapter.getCursor());
+            if (album.isAll() && SelectionSpec.getInstance().capture) {
+                album.addCaptureCount();
+            }
+            onAlbumSelected(album);
+//            Fragment mediaSelectionFragment = getSupportFragmentManager().findFragmentByTag(
+//                    MediaSelectionFragment.class.getSimpleName());
+//            if (mediaSelectionFragment instanceof MediaSelectionFragment) {
+//                ((MediaSelectionFragment) mediaSelectionFragment).refreshMediaGrid();
+//            }
+            updateBottomToolbar();
+        }
+    }
+
     private void updateBottomToolbar() {
 
         int selectedCount = mSelectedCollection.count();
@@ -341,6 +379,16 @@ public class MatisseActivity extends AppCompatActivity implements
 
             if (mSpec.onCheckedListener != null) {
                 mSpec.onCheckedListener.onCheck(mOriginalEnable);
+            }
+        } else if (v.getId() == R.id.button_manager) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                        new String[]{
+                                Manifest.permission.READ_MEDIA_IMAGES,
+                                Manifest.permission.READ_MEDIA_VIDEO,
+                                Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                        },
+                        REQUEST_CODE_USER_SELECTED);
             }
         }
     }

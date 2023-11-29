@@ -15,7 +15,7 @@
   limitations under the License.
   -->
 <resources>
-    <string name="album_name_all">Todas as mídias</string>
+    <string name="echat_album_name_all">Todas as mídias</string>
 
     <string name="echat_button_preview">Pré-visualizaçao</string>
     <string name="echat_button_apply_default">Aplicar</string>
