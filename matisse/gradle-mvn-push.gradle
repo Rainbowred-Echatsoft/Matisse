@@ -1,0 +1,37 @@
+apply plugin: "maven-publish"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = android.defaultConfig.versionName
+
+                pom {
+                    developers {
+                        developer {
+                            id  = "XHY"
+                            name = "Haoyang Xu"
+                            email = "xuhaoyang3x@gmail.com"
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
+            }
+//            maven {
+//                url = "https://nexus.rainbowred.com/repository/sdk/"
+//                credentials {
+//                    username = nexus_user
+//                    password = nexus_password
+//                }
+//            }
+        }
+    }
+}
+
+

@@ -1,4 +1,11 @@
+apply{
+    //read local.properties
+    from("properties-reader.gradle")
+}
 ext {
+    nexus_user = project.localProperties.getProperty("nexus_user")
+    nexus_password = project.localProperties.getProperty("nexus_password")
+
     supportLibVersion = '28.0.0'
 
     SDK_PERMISSIONS = "18.5.0"
