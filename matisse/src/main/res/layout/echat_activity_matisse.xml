@@ -113,7 +113,7 @@
 
         <RelativeLayout
             android:id="@+id/partial_media_layout"
-            android:background="?attr/page.bg"
+            android:background="?attr/partialMedia.bg"
             android:layout_width="match_parent"
             android:paddingVertical="8dp"
             android:paddingHorizontal="16dp"
@@ -126,9 +126,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="?attr/album.emptyView.textColor"
+                android:textColor="?attr/partialMedia.textColor"
                 android:text="@string/echat_partial_media_tips"
-                android:layout_toRightOf="@+id/button_manager"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatButton
@@ -137,8 +136,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?colorPrimary"
-                android:textColor="?attr/album.element.color"
+                android:background="?attr/partialMedia.button.color"
+                android:textColor="?attr/partialMedia.button.textColor"
                 android:text="@string/echat_button_manager"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
