@@ -31,6 +31,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
+        }
         //jcenter backup
         maven {
             url 'https://maven.aliyun.com/repository/jcenter'

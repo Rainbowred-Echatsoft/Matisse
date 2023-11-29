@@ -42,9 +42,9 @@ import com.echat.matisse.internal.entity.CaptureStrategy;
 import com.echat.matisse.listener.OnCheckedListener;
 import com.echat.matisse.listener.OnMaxFileSizeListener;
 import com.echat.matisse.listener.OnSelectedListener;
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
+import com.echatsoft.echatsdk.permissions.EPermissions;
+import  com.echatsoft.echatsdk.permissions.OnPermissionCallback;
+import  com.echatsoft.echatsdk.permissions.Permission;
 
 import java.util.List;
 
@@ -127,7 +127,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void openAlbum(View v) {
-        XXPermissions.with(this)
+        EPermissions.with(this)
                 .permission(Permission.READ_MEDIA_IMAGES, Permission.READ_MEDIA_VIDEO)
                 //.interceptor()
                 .request(new OnPermissionCallback() {
@@ -146,7 +146,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                         if (doNotAskAgain) {
                             Toast.makeText(SampleActivity.this, "被永久拒绝授权", Toast.LENGTH_LONG)
                                     .show();
-                            XXPermissions.startPermissionActivity(SampleActivity.this, permissions);
+                            EPermissions.startPermissionActivity(SampleActivity.this, permissions);
                         } else {
                             Toast.makeText(SampleActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG)
                                     .show();
