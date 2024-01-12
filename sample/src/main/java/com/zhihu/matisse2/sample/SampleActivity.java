@@ -43,8 +43,8 @@ import com.echat.matisse.listener.OnCheckedListener;
 import com.echat.matisse.listener.OnMaxFileSizeListener;
 import com.echat.matisse.listener.OnSelectedListener;
 import com.echatsoft.echatsdk.permissions.EPermissions;
-import  com.echatsoft.echatsdk.permissions.OnPermissionCallback;
-import  com.echatsoft.echatsdk.permissions.Permission;
+import com.echatsoft.echatsdk.permissions.OnPermissionCallback;
+import com.echatsoft.echatsdk.permissions.Permission;
 
 import java.util.List;
 
@@ -128,7 +128,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void openAlbum(View v) {
         EPermissions.with(this)
-                .permission(Permission.READ_MEDIA_IMAGES, Permission.READ_MEDIA_VIDEO)
+                .permission(Permission.READ_MEDIA_IMAGES, Permission.READ_MEDIA_VIDEO, Permission.READ_MEDIA_VISUAL_USER_SELECTED)
                 //.interceptor()
                 .request(new OnPermissionCallback() {
                     @Override
