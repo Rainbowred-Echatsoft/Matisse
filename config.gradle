@@ -6,6 +6,9 @@ ext {
     nexus_user = project.localProperties.getProperty("nexus_user")
     nexus_password = project.localProperties.getProperty("nexus_password")
 
+    sonatype_username = project.localProperties.getProperty("sonatype_username")
+    sonatype_password = project.localProperties.getProperty("sonatype_password")
+
     supportLibVersion = '28.0.0'
 
     SDK_PERMISSIONS = "18.5.0"
