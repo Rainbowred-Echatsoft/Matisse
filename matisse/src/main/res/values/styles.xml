@@ -28,6 +28,10 @@
         <item name="album.thumbnail.placeholder">@color/zhihu_album_dropdown_thumbnail_placeholder</item>
         <item name="album.emptyView">@drawable/ic_empty_zhihu</item>
         <item name="album.emptyView.textColor">@color/zhihu_album_empty_view</item>
+        <item name="partialMedia.bg">@color/zhihu_page_bg</item>
+        <item name="partialMedia.textColor">@color/zhihu_partial_media_text</item>
+        <item name="partialMedia.button.textColor">@color/zhihu_partial_media_button_text</item>
+        <item name="partialMedia.button.color">@color/zhihu_primary</item>
         <item name="item.placeholder">@color/zhihu_item_placeholder</item>
         <item name="item.checkCircle.backgroundColor">@color/zhihu_item_checkCircle_backgroundColor</item>
         <item name="item.checkCircle.borderColor">@color/zhihu_item_checkCircle_borderColor</item>
@@ -61,6 +65,10 @@
         <item name="album.thumbnail.placeholder">@color/dracula_album_dropdown_thumbnail_placeholder</item>
         <item name="album.emptyView">@drawable/ic_empty_dracula</item>
         <item name="album.emptyView.textColor">@color/dracula_album_empty_view</item>
+        <item name="partialMedia.bg">@color/dracula_page_bg</item>
+        <item name="partialMedia.textColor">@color/dracula_partial_media_text</item>
+        <item name="partialMedia.button.textColor">@android:color/white</item>
+        <item name="partialMedia.button.color">@color/dracula_primary</item>
         <item name="item.placeholder">@color/dracula_item_placeholder</item>
         <item name="item.checkCircle.backgroundColor">@color/dracula_item_checkCircle_backgroundColor</item>
         <item name="item.checkCircle.borderColor">@color/dracula_item_checkCircle_borderColor</item>

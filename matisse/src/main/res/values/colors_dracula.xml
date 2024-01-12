@@ -29,6 +29,9 @@
     <color name="dracula_item_checkCircle_borderColor">#FFFFFF</color>
     <color name="dracula_capture">#FFFFFF</color>
 
+    <color name="dracula_partial_media_text">#DEFFFFFF</color>
+    <color name="dracula_partial_media_button_text">#FFFFFF</color>
+
     <color name="dracula_page_bg">#232E32</color>
     <color name="dracula_bottom_toolbar_bg">#34474E</color>
 

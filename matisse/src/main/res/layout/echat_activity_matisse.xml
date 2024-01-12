@@ -104,33 +104,74 @@
             android:textSize="16sp" />
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/bottom_toolbar"
         android:layout_below="@id/toolbar"
-        android:visibility="gone" />
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_toolbar"
-        android:layout_below="@id/toolbar"
-        android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/partial_media_layout"
+            android:background="?attr/partialMedia.bg"
+            android:layout_width="match_parent"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/empty_view_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="8dp"
-            android:drawableTop="?attr/album.emptyView"
-            android:gravity="center"
-            android:text="@string/echat_empty_text"
-            android:textColor="?attr/album.emptyView.textColor"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/selected_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="?attr/partialMedia.textColor"
+                android:text="@string/echat_partial_media_tips"
+                android:textSize="12sp" />
 
-    </FrameLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_manager"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/partialMedia.button.color"
+                android:textColor="?attr/partialMedia.button.textColor"
+                android:text="@string/echat_button_manager"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                android:textSize="12sp"/>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/empty_view_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="?attr/album.emptyView"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/echat_empty_text"
+                android:textColor="?attr/album.emptyView.textColor"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>

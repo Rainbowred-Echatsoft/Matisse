@@ -1,11 +1,23 @@
+apply{
+    //read local.properties
+    from("properties-reader.gradle")
+}
 ext {
+    nexus_user = project.localProperties.getProperty("nexus_user")
+    nexus_password = project.localProperties.getProperty("nexus_password")
+
+    sonatype_username = project.localProperties.getProperty("sonatype_username")
+    sonatype_password = project.localProperties.getProperty("sonatype_password")
+
     supportLibVersion = '28.0.0'
 
+    SDK_PERMISSIONS = "18.5.0"
+
     android = [
-            compileSdkVersion: 33,
-            buildToolsVersion: '33.0.2',
+            compileSdkVersion: 34,
+            buildToolsVersion: '34.0.0',
             minSdkVersion    : 15,
-            targetSdkVersion : 33,
+            targetSdkVersion : 34,
             versionCode      : 1,
             versionName      : "1.0"
     ]

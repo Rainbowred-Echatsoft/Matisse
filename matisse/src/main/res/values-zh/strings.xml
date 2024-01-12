@@ -24,6 +24,8 @@
     <string name="echat_photo_grid_capture">拍一张</string>
     <string name="echat_empty_text">还没有图片或视频</string>
     <string name="echat_button_ok">我知道了</string>
+    <string name="echat_button_manager">管理</string>
+    <string name="echat_partial_media_tips">你已限制访问您相册的所有媒体</string>
 
     <string name="echat_error_over_count_default">您已经达到最大选择数量</string>
     <string name="echat_error_under_quality">图片质量太低</string>

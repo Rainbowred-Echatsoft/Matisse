@@ -18,8 +18,8 @@ apply from: "config.gradle"
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
@@ -29,8 +29,16 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
+        maven {
+            url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
+        }
+        //jcenter backup
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven { url 'https://jitpack.io' }
     }
 }
 

@@ -1,0 +1,72 @@
+apply plugin: "maven-publish"
+apply plugin: 'signing'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = android.defaultConfig.versionName
+
+                pom {
+                    name = "echatsdk - matisse"
+                    description = "用于Android Support依赖下的一洽SDK Matiesse模块"
+                    url = 'https://www.echatsoft.com'
+                    // 许可证名称和地址
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id  = "XHY"
+                            name = "Haoyang Xu"
+                            email = "xuhaoyang3x@gmail.com"
+                        }
+                    }
+                    // 版本控制仓库地址
+                    scm {
+                        url = 'https://github.com/Rainbowred-Echatsoft/Matisse'
+                        connection = 'scm:git@github.com:Rainbowred-Echatsoft/Matisse.git'
+                        developerConnection = 'scm:git:ssh://git@github.com:Rainbowred-Echatsoft/Matisse.git'
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
+            }
+            // echat nexus
+            maven {
+                url = "https://nexus.rainbowred.com/repository/sdk/"
+                credentials {
+                    username = nexus_user
+                    password = nexus_password
+                }
+            }
+            //中央仓库
+            maven{
+                // release 直接发布到 Repositories的Releases，个人开发者可以直接用这个仓库地址
+                //"https://s01.oss.sonatype.org/content/repositories/releases"
+
+                // release 先发布到 Staging Repositories 暂存库
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                credentials {
+                    // 这里就是之前在 issues.sonatype.org 注册的账号
+                    username sonatype_username
+                    password sonatype_password
+                }
+            }
+        }
+    }
+}
+
+//签名
+signing {
+    sign publishing.publications
+}

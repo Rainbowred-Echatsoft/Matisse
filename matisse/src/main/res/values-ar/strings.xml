@@ -29,4 +29,7 @@
     <string name="echat_button_original">الصورة الأصلية</string>
     <string name="echat_error_over_original_count">" صور يزيد حجمها عن %2$d ميغا بايت. الأصل لن يتم التحقق منه"</string>
     <string name="echat_error_over_original_size">لا يمكن تحديد الصور الأكبر من %1$d ميغا بايت</string>
+    <string name="echat_button_manager">مدير</string>
+    <string name="echat_partial_media_tips">لديك قيود في الوصول إلى صورك</string>
+
 </resources>
