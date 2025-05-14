@@ -15,6 +15,8 @@
  */
 package com.echat.matisse.ui;
 
+import static com.echat.matisse.internal.utils.UIUtils.supportAndroid15EdgeToEdge;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -37,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -158,6 +161,10 @@ public class MatisseActivity extends AppCompatActivity implements
         mOriginalLayout = findViewById(R.id.originalLayout);
         mOriginal = findViewById(R.id.original);
         mOriginalLayout.setOnClickListener(this);
+
+        // 适配Android 15
+        FrameLayout bottomToolbar = (FrameLayout) findViewById(R.id.bottom_toolbar);
+        supportAndroid15EdgeToEdge(this, getWindow(), toolbar, bottomToolbar);
 
         mSelectedCollection.onCreate(savedInstanceState);
         if (savedInstanceState != null) {

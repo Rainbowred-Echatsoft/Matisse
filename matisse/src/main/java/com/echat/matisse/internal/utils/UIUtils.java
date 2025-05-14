@@ -16,6 +16,14 @@
 package com.echat.matisse.internal.utils;
 
 import android.content.Context;
+import android.graphics.Insets;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.view.DisplayCutout;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 
 public class UIUtils {
 
@@ -27,6 +35,39 @@ public class UIUtils {
             spanCount = 1;
         }
         return spanCount;
+    }
+
+
+    // 适配Android 15 EdgeToEdge
+    public static void supportAndroid15EdgeToEdge(Context context, Window window, View topView, View bottomView) {
+        if (context.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.VANILLA_ICE_CREAM
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            window.getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+
+            window.getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @NonNull
+                @Override
+                public WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+                    Insets systemBars = windowInsets.getInsets(WindowInsets.Type.systemBars());
+                    int    top        = systemBars.top;
+                    int    bottom     = systemBars.bottom;
+
+                    DisplayCutout cutout = windowInsets.getDisplayCutout();
+                    if (cutout != null && cutout.getBoundingRects() != null && !cutout.getBoundingRects().isEmpty()) {
+                        if (cutout.getSafeInsetTop() > top) top = cutout.getSafeInsetTop();
+                    }
+
+                    if (topView != null) {
+                        topView.setPadding(topView.getPaddingLeft(), topView.getPaddingTop() + top, topView.getPaddingRight(), topView.getPaddingBottom());
+                    }
+                    if (bottomView != null) {
+                        bottomView.setPadding(bottomView.getPaddingLeft(), bottomView.getPaddingTop(), bottomView.getPaddingRight(), bottomView.getPaddingBottom() + bottom);
+                    }
+
+                    return windowInsets;
+                }
+            });
+        }
     }
 
 }
