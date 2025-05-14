@@ -22,8 +22,14 @@ apply {
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
+    publishing {
+        singleVariant("release") {
+            // if you don't want sources/javadoc, remove these lines
+            //withSourcesJar()
+            //withJavadocJar()
+        }
+    }
     defaultConfig {
-        versionName "${MATISSE_VERSION_NAME}"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
@@ -34,6 +40,7 @@ android {
     lintOptions {
         abortOnError false
     }
+    namespace 'com.echat.matisse'
 }
 
 dependencies {
