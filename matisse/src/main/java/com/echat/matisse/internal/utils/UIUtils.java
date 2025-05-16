@@ -15,10 +15,14 @@
  */
 package com.echat.matisse.internal.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Insets;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.DisplayCutout;
 import android.view.View;
 import android.view.Window;
@@ -28,9 +32,9 @@ import android.view.WindowManager;
 public class UIUtils {
 
     public static int spanCount(Context context, int gridExpectedSize) {
-        int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-        float expected = (float) screenWidth / (float) gridExpectedSize;
-        int spanCount = Math.round(expected);
+        int   screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        float expected    = (float) screenWidth / (float) gridExpectedSize;
+        int   spanCount   = Math.round(expected);
         if (spanCount == 0) {
             spanCount = 1;
         }
@@ -67,6 +71,37 @@ public class UIUtils {
                     return windowInsets;
                 }
             });
+        }
+    }
+
+    public static void supportAndroid15LightMode(Activity activity) {
+        if (activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.VANILLA_ICE_CREAM
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            TypedValue typedValue = new TypedValue();
+            activity.getTheme().resolveAttribute(android.R.attr.colorPrimary,  typedValue, true);
+            int colorPrimary = typedValue.data;
+            boolean lightColor = UIUtils.isLightColor(colorPrimary);
+            Log.i("Matisse", "onCreate: lightColor = "+lightColor);
+            UIUtils.setStatusBarLightMode(activity.getWindow(), lightColor);
+        }
+    }
+
+    public static boolean isLightColor(int color) {
+        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        return darkness < 0.5;
+    }
+
+    public static void setStatusBarLightMode(@NonNull final Window window,
+                                             final boolean isLightMode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = window.getDecorView();
+            int  vis       = decorView.getSystemUiVisibility();
+            if (isLightMode) {
+                vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(vis);
         }
     }
 

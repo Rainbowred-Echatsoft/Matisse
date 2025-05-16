@@ -8,7 +8,7 @@ afterEvaluate {
                 from components.release
                 groupId = GROUP
                 artifactId = POM_ARTIFACT_ID
-                version = android.defaultConfig.versionName
+                version = MATISSE_VERSION_NAME
 
                 pom {
                     name = "echatsdk - matisse"

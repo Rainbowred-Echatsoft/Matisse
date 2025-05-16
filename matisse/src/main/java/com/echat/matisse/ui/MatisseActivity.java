@@ -63,6 +63,7 @@ import com.echat.matisse.internal.utils.MediaStoreCompat;
 import com.echat.matisse.internal.utils.PathUtils;
 import com.echat.matisse.internal.utils.PhotoMetadataUtils;
 import com.echat.matisse.internal.utils.Platform;
+import com.echat.matisse.internal.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -116,7 +117,6 @@ public class MatisseActivity extends AppCompatActivity implements
         }
         setContentView(R.layout.echat_activity_matisse);
 
-
         if (mSpec.needOrientationRestriction()) {
             setRequestedOrientation(mSpec.orientation);
         }
@@ -164,7 +164,8 @@ public class MatisseActivity extends AppCompatActivity implements
 
         // 适配Android 15
         FrameLayout bottomToolbar = (FrameLayout) findViewById(R.id.bottom_toolbar);
-        supportAndroid15EdgeToEdge(this, getWindow(), toolbar, bottomToolbar);
+        UIUtils.supportAndroid15EdgeToEdge(this, getWindow(), toolbar, bottomToolbar);
+        UIUtils.supportAndroid15LightMode(this);
 
         mSelectedCollection.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
