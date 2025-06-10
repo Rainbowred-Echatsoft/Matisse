@@ -98,6 +98,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
         findViewById(R.id.zhihu).setOnClickListener(this);
         findViewById(R.id.dracula).setOnClickListener(this);
+        findViewById(R.id.echat).setOnClickListener(this);
 
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,6 +235,42 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 //                                                    showToast("超出10M大小，无法上传", Toast.LENGTH_SHORT);
 //                                                }
 //                                            })
+                        .forResult(REQUEST_CODE_CHOOSE);
+                break;
+            case R.id.echat:
+                Matisse.from(SampleActivity.this)
+                        .choose(MimeType.ofAll(), false)
+                        .theme(R.style.Matisse_EChat)
+                        .countable(true)
+                        .capture(true)
+                        .captureStrategy(
+                                new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                        .maxSelectable(9)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new Glide4Engine())    // for glide-V4
+                        .setOnSelectedListener(new OnSelectedListener() {
+                            @Override
+                            public void onSelected(
+                                    @NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("onSelected", "onSelected: pathList=" + pathList);
+
+                            }
+                        })
+                        .originalEnable(true)
+                        .maxOriginalSize(8)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(new OnCheckedListener() {
+                            @Override
+                            public void onCheck(boolean isChecked) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                            }
+                        })
                         .forResult(REQUEST_CODE_CHOOSE);
                 break;
             case R.id.dracula:
