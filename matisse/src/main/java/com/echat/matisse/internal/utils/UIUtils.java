@@ -62,7 +62,7 @@ public class UIUtils {
                     }
 
                     if (topView != null) {
-                        topView.setPadding(topView.getPaddingLeft(), topView.getPaddingTop() + top, topView.getPaddingRight(), topView.getPaddingBottom());
+                        topView.setPadding(topView.getPaddingLeft(), top, topView.getPaddingRight(), topView.getPaddingBottom());
                     }
                     if (bottomView != null) {
                         bottomView.setPadding(bottomView.getPaddingLeft(), bottomView.getPaddingTop(), bottomView.getPaddingRight(), bottomView.getPaddingBottom() + bottom);
@@ -78,10 +78,10 @@ public class UIUtils {
         if (activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.VANILLA_ICE_CREAM
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             TypedValue typedValue = new TypedValue();
-            activity.getTheme().resolveAttribute(android.R.attr.colorPrimary,  typedValue, true);
-            int colorPrimary = typedValue.data;
-            boolean lightColor = UIUtils.isLightColor(colorPrimary);
-            Log.i("Matisse", "onCreate: lightColor = "+lightColor);
+            activity.getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+            int     colorPrimary = typedValue.data;
+            boolean lightColor   = UIUtils.isLightColor(colorPrimary);
+            Log.i("Matisse", "onCreate: lightColor = " + lightColor);
             UIUtils.setStatusBarLightMode(activity.getWindow(), lightColor);
         }
     }
