@@ -46,6 +46,9 @@ public class UIUtils {
     public static void supportAndroid15EdgeToEdge(Context context, Window window, View topView, View bottomView) {
         if (context.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.VANILLA_ICE_CREAM
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            // Matisse特殊处理 直接当EdgeToEdge处理
+            window.setDecorFitsSystemWindows(false);
+
             window.getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
 
             window.getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
