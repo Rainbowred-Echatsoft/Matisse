@@ -68,7 +68,7 @@ public class UIUtils {
                         topView.setPadding(topView.getPaddingLeft(), top, topView.getPaddingRight(), topView.getPaddingBottom());
                     }
                     if (bottomView != null) {
-                        bottomView.setPadding(bottomView.getPaddingLeft(), bottomView.getPaddingTop(), bottomView.getPaddingRight(), bottomView.getPaddingBottom() + bottom);
+                        bottomView.setPadding(bottomView.getPaddingLeft(), bottomView.getPaddingTop(), bottomView.getPaddingRight(), bottom);
                     }
 
                     return windowInsets;
