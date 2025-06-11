@@ -100,31 +100,6 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.dracula).setOnClickListener(this);
         findViewById(R.id.echat).setOnClickListener(this);
 
-        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //content://media/external/video/media/1417095
-                //content://media/external/video/media/1417110
-                //content://media/external/video/media/1417094
-                //ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417094)
-                //Uri.parse("content://media/external/video/media/1417110")
-
-//Uri.parse("content://media/external/images/media/1417113")
-
-//                String s = "content://media/external/images/media/1417113";
-//                int beginIndex = s.lastIndexOf("/");
-//                Log.e("TEST", "onClick: " + beginIndex);
-//                Log.e("TEST", "onClick: " + s.substring(beginIndex + 1));
-//                query(Uri.parse("content://media/external/images/media/1417113"));
-//                query(ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417113));
-//                Uri external = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), 1417094);
-//                Log.e("TEST", "onClick: " + external.toString());
-//                query(external);
-//                delete();
-//                queryDelete();
-            }
-        });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
     }
@@ -135,11 +110,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         if (cursor == null || !cursor.moveToFirst()) {
             Log.e("Sample", "onClick: " + "空或者没有数据");
         }
-
         Log.e("Sample", "onClick: " + DatabaseUtils.dumpCursorToString(cursor));
         Log.e("DATA", "getString: DATA -> " + cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)));
         Log.e("DATA", "getString: DISPLAY_NAME -> " + cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DISPLAY_NAME)));
-
     }
 
 
@@ -303,6 +276,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         switch (id) {
             case R.id.zhihu:
             case R.id.dracula:
+            case R.id.echat:
                 openAlbum(v);
         }
     }
