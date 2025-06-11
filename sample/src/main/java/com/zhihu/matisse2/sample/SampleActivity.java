@@ -20,7 +20,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.Insets;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
@@ -30,15 +32,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.DisplayCutout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.LanguageUtils;
 import com.echat.matisse.Matisse;
 import com.echat.matisse.MimeType;
 import com.echat.matisse.engine.impl.PicassoEngine;
@@ -52,37 +54,54 @@ import com.echatsoft.echatsdk.permissions.OnPermissionCallback;
 import com.echatsoft.echatsdk.permissions.Permission;
 
 import java.util.List;
-import java.util.Locale;
 
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE_CHOOSE = 23;
 
     private UriAdapter mAdapter;
-    private Toast sToast;
+    private Toast      sToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
+
+        // 大于等于Android 15 适配强制的Edge to Edge模式
+        if (getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.VANILLA_ICE_CREAM && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+
+            getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @NonNull
+                @Override
+                public WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+                    Insets systemBars = windowInsets.getInsets(WindowInsets.Type.systemBars());
+                    int    top        = systemBars.top;
+                    int    bottom     = systemBars.bottom;
+
+                    DisplayCutout cutout = windowInsets.getDisplayCutout();
+                    if (cutout != null && cutout.getBoundingRects() != null && !cutout.getBoundingRects().isEmpty()) {
+                        if (cutout.getSafeInsetTop() > top) top = cutout.getSafeInsetTop();
+                    }
+                    // decorView 控制顶部
+                    view.setPadding(view.getPaddingLeft(), top, view.getPaddingRight(), 0);
+                    view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    // 使用界面布局作为底部填充
+                    if (recyclerView != null) {
+                        recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), bottom);
+                    }
+                    return windowInsets;
+                }
+            });
+        }
+
         findViewById(R.id.zhihu).setOnClickListener(this);
         findViewById(R.id.dracula).setOnClickListener(this);
+        findViewById(R.id.echat).setOnClickListener(this);
 
-        Button testBtn = findViewById(R.id.btn_test);
-        testBtn.setText(LanguageUtils.getAppContextLanguage().toString());
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (LanguageUtils.isAppliedLanguage()) {
-                    LanguageUtils.applySystemLanguage();
-                } else {
-                    LanguageUtils.applyLanguage(new Locale("ar"));
-                }
-                AppUtils.relaunchApp(true);
-            }
-        });
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
     }
@@ -93,11 +112,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         if (cursor == null || !cursor.moveToFirst()) {
             Log.e("Sample", "onClick: " + "空或者没有数据");
         }
-
         Log.e("Sample", "onClick: " + DatabaseUtils.dumpCursorToString(cursor));
         Log.e("DATA", "getString: DATA -> " + cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)));
         Log.e("DATA", "getString: DISPLAY_NAME -> " + cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DISPLAY_NAME)));
-
     }
 
 
@@ -195,6 +212,42 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 //                                            })
                         .forResult(REQUEST_CODE_CHOOSE);
                 break;
+            case R.id.echat:
+                Matisse.from(SampleActivity.this)
+                        .choose(MimeType.ofAll(), false)
+                        .theme(R.style.Matisse_EChat)
+                        .countable(true)
+                        .capture(true)
+                        .captureStrategy(
+                                new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                        .maxSelectable(9)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new Glide4Engine())    // for glide-V4
+                        .setOnSelectedListener(new OnSelectedListener() {
+                            @Override
+                            public void onSelected(
+                                    @NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("onSelected", "onSelected: pathList=" + pathList);
+
+                            }
+                        })
+                        .originalEnable(true)
+                        .maxOriginalSize(8)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(new OnCheckedListener() {
+                            @Override
+                            public void onCheck(boolean isChecked) {
+                                // DO SOMETHING IMMEDIATELY HERE
+                                Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                            }
+                        })
+                        .forResult(REQUEST_CODE_CHOOSE);
+                break;
             case R.id.dracula:
                 Matisse.from(SampleActivity.this)
                         .choose(MimeType.ofAll())
@@ -225,6 +278,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         switch (id) {
             case R.id.zhihu:
             case R.id.dracula:
+            case R.id.echat:
                 openAlbum(v);
         }
     }

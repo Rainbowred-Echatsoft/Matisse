@@ -8,7 +8,7 @@ afterEvaluate {
                 from components.release
                 groupId = GROUP
                 artifactId = POM_ARTIFACT_ID
-                version = android.defaultConfig.versionName
+                version = MATISSE_VERSION_NAME
 
                 pom {
                     name = "echatsdk - matisse"
@@ -39,10 +39,12 @@ afterEvaluate {
         }
         repositories {
             maven {
+                name("echat")
                 url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
             }
             // echat nexus
             maven {
+                name("rainbowred")
                 url = "https://nexus.rainbowred.com/repository/sdk/"
                 credentials {
                     username = nexus_user
@@ -51,6 +53,7 @@ afterEvaluate {
             }
             //中央仓库
             maven{
+                name("mavenCentral")
                 // release 直接发布到 Repositories的Releases，个人开发者可以直接用这个仓库地址
                 //"https://s01.oss.sonatype.org/content/repositories/releases"
 

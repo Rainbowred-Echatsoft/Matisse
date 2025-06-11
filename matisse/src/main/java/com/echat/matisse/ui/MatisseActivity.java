@@ -15,6 +15,8 @@
  */
 package com.echat.matisse.ui;
 
+import static com.echat.matisse.internal.utils.UIUtils.supportAndroid15EdgeToEdge;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -37,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +63,7 @@ import com.echat.matisse.internal.utils.MediaStoreCompat;
 import com.echat.matisse.internal.utils.PathUtils;
 import com.echat.matisse.internal.utils.PhotoMetadataUtils;
 import com.echat.matisse.internal.utils.Platform;
+import com.echat.matisse.internal.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -113,7 +117,6 @@ public class MatisseActivity extends AppCompatActivity implements
         }
         setContentView(R.layout.echat_activity_matisse);
 
-
         if (mSpec.needOrientationRestriction()) {
             setRequestedOrientation(mSpec.orientation);
         }
@@ -158,6 +161,11 @@ public class MatisseActivity extends AppCompatActivity implements
         mOriginalLayout = findViewById(R.id.originalLayout);
         mOriginal = findViewById(R.id.original);
         mOriginalLayout.setOnClickListener(this);
+
+        // 适配Android 15
+        FrameLayout bottomToolbar = (FrameLayout) findViewById(R.id.bottom_toolbar);
+        UIUtils.supportAndroid15EdgeToEdge(this, getWindow(), toolbar, bottomToolbar);
+        UIUtils.supportAndroid15LightMode(this);
 
         mSelectedCollection.onCreate(savedInstanceState);
         if (savedInstanceState != null) {

@@ -15,6 +15,7 @@
   limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/main"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@android:color/white"
@@ -52,7 +53,6 @@
             android:id="@+id/dracula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
             android:layout_marginLeft="@dimen/item_margin_horizontal"
             android:layout_marginRight="@dimen/item_margin_horizontal"
             android:layout_marginTop="16dp"
@@ -63,10 +63,19 @@
             android:theme="@style/DraculaOverlay"/>
 
         <Button
-            android:id="@+id/btn_test"
-            android:text="测试"
+            android:id="@+id/echat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="@dimen/item_margin_horizontal"
+            android:layout_marginRight="@dimen/item_margin_horizontal"
+            android:layout_marginTop="16dp"
+            android:minHeight="56dp"
+            android:text="echat"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:theme="@style/echatOverlay"/>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

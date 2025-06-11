@@ -40,6 +40,7 @@ import com.echat.matisse.internal.ui.widget.CheckView;
 import com.echat.matisse.internal.ui.widget.IncapableDialog;
 import com.echat.matisse.internal.utils.PhotoMetadataUtils;
 import com.echat.matisse.internal.utils.Platform;
+import com.echat.matisse.internal.utils.UIUtils;
 import com.echat.matisse.listener.OnFragmentInteractionListener;
 
 public abstract class BasePreviewActivity extends AppCompatActivity implements View.OnClickListener,
@@ -114,6 +115,9 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
         mCheckView.setCountable(mSpec.countable);
         mBottomToolbar = findViewById(R.id.bottom_toolbar);
         mTopToolbar = findViewById(R.id.top_toolbar);
+
+        // 适配Android 15 EdgeToEdge
+        UIUtils.supportAndroid15EdgeToEdge(this, getWindow(), null, mBottomToolbar);
 
         mCheckView.setOnClickListener(new View.OnClickListener() {
 

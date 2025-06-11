@@ -29,4 +29,8 @@
         <item name="colorButtonNormal">@color/dracula_primary</item>
     </style>
 
+    <style name="echatOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorButtonNormal">@color/echatColorPrimary</item>
+    </style>
+
 </resources>
