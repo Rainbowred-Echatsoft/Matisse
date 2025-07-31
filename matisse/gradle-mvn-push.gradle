@@ -39,11 +39,6 @@ afterEvaluate {
         }
         repositories {
             maven {
-                name("echat")
-                url = uri('file:///Users/xuhaoyang/echat/repo/sdk/')
-            }
-            // echat nexus
-            maven {
                 name("rainbowred")
                 url = "https://nexus.rainbowred.com/repository/sdk/"
                 credentials {
@@ -51,19 +46,9 @@ afterEvaluate {
                     password = nexus_password
                 }
             }
-            //中央仓库
             maven{
                 name("mavenCentral")
-                // release 直接发布到 Repositories的Releases，个人开发者可以直接用这个仓库地址
-                //"https://s01.oss.sonatype.org/content/repositories/releases"
-
-                // release 先发布到 Staging Repositories 暂存库
-                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                credentials {
-                    // 这里就是之前在 issues.sonatype.org 注册的账号
-                    username sonatype_username
-                    password sonatype_password
-                }
+                url = uri('file:///Users/xuhaoyang/echat/repo/mavenCentral/')
             }
         }
     }
